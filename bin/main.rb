@@ -71,6 +71,4 @@ puts 'Game over.'
 sleep 2
 puts `clear`
 
-
-
 # rubocop:enable Metrics/MethodLength
