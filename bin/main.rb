@@ -30,19 +30,24 @@ def players_info
   puts 'Let\'s start!'
   puts ''
   sleep 2
-  puts `clear`
+  system 'cls'
+  system 'clear'
   [player1, player2]
 end
 players = players_info
 
-def game_start(player)
-  puts '+---+---+---+'
-  puts '| 1 | 2 | 3 |'
-  puts '+---+---+---+'
-  puts '| 4 | 5 | 6 |'
-  puts '+---+---+---+'
-  puts '| 7 | 8 | 9 |'
-  puts '+---+---+---+'
+board = Proc.new do 
+    puts '+---+---+---+'
+    puts '| 1 | 2 | 3 |'
+    puts '+---+---+---+'
+    puts '| 4 | 5 | 6 |'
+    puts '+---+---+---+'
+    puts '| 7 | 8 | 9 |'
+    puts '+---+---+---+'
+end
+
+def game_start(player, board)
+  board.call()
   puts ''
   puts "It's #{player}'s turn!"
   puts ''
@@ -56,19 +61,43 @@ def game_start(player)
     puts ''
     retry
   end
-  puts `clear`
+  system 'cls'
+  system 'clear'
   sleep 1
 end
 
-2.times do
-  game_start(players[0])
-  game_start(players[1])
+game_on = true
+count = 0
+
+while game_on && count < 3
+  game_start(players[0], board)
+  game_start(players[1], board)
+
+  count += 1
 end
 
+board.call()
 puts "#{players[0]} wins the game."
+puts ''
+sleep 2
+system 'cls'
+system 'clear'
+
+
+count = 0
+while game_on && count < 3
+    game_start(players[0], board)
+    game_start(players[1], board)
+  
+    count += 1
+end
+
+board.call()  
+puts 'It\'s a Tie.'
 puts ''
 puts 'Game over.'
 sleep 2
-puts `clear`
+system 'cls'
+system 'clear'
 
 # rubocop:enable Metrics/MethodLength
