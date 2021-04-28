@@ -60,9 +60,17 @@ def game_start(player)
   sleep 1
 end
 
-4.times do
+2.times do
   game_start(players[0])
   game_start(players[1])
 end
+
+puts "#{players[0]} wins the game."
+puts ''
+puts 'Game over.'
+sleep 2
+puts `clear`
+
+
 
 # rubocop:enable Metrics/MethodLength
