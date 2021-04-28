@@ -36,18 +36,18 @@ def players_info
 end
 players = players_info
 
-board = Proc.new do 
-    puts '+---+---+---+'
-    puts '| 1 | 2 | 3 |'
-    puts '+---+---+---+'
-    puts '| 4 | 5 | 6 |'
-    puts '+---+---+---+'
-    puts '| 7 | 8 | 9 |'
-    puts '+---+---+---+'
+board = proc do
+  puts '+---+---+---+'
+  puts '| 1 | 2 | 3 |'
+  puts '+---+---+---+'
+  puts '| 4 | 5 | 6 |'
+  puts '+---+---+---+'
+  puts '| 7 | 8 | 9 |'
+  puts '+---+---+---+'
 end
 
 def game_start(player, board)
-  board.call()
+  board.call
   puts ''
   puts "It's #{player}'s turn!"
   puts ''
@@ -76,23 +76,22 @@ while game_on && count < 3
   count += 1
 end
 
-board.call()
+board.call
 puts "#{players[0]} wins the game."
 puts ''
 sleep 2
 system 'cls'
 system 'clear'
 
-
 count = 0
 while game_on && count < 3
-    game_start(players[0], board)
-    game_start(players[1], board)
-  
-    count += 1
+  game_start(players[0], board)
+  game_start(players[1], board)
+
+  count += 1
 end
 
-board.call()  
+board.call
 puts 'It\'s a Tie.'
 puts ''
 puts 'Game over.'
