@@ -34,7 +34,6 @@ def players_info
   [player1, player2]
 end
 players = players_info
-# rubocop:enable Metrics/MethodLength
 
 def game_start(player)
   puts '+---+---+---+'
@@ -51,16 +50,19 @@ def game_start(player)
     puts 'Please select an available cell from the board: '
     input = gets.chomp
     puts ''
-    raise StandardError, input if input.nil? || !(input.to_i > 0 && input.to_i < 10) 
-  rescue StandardError => e
-    puts "Invalid move. Please enter a number from 1-9."
+    raise StandardError, input if input.nil? || !(input.to_i >= 1 && input.to_i < 10)
+  rescue StandardError
+    puts 'Invalid move. Please enter a number from 1-9.'
     puts ''
     retry
   end
   puts `clear`
   sleep 1
 end
-for i in 1..4
+
+4.times do
   game_start(players[0])
   game_start(players[1])
 end
+
+# rubocop:enable Metrics/MethodLength
