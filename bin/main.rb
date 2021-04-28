@@ -77,3 +77,5 @@ sleep 2
 puts `clear`
 
 # rubocop:enable Metrics/MethodLength
+
+puts records
