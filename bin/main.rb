@@ -74,33 +74,12 @@ count = 0
 
 while game_on && count < 3
   game_start(players[0],board,"X", records)
+#   check for winner or the draw()
   game_start(players[1],board, "O", records)
-  count += 1
-end
-
-board.call
-puts "#{players[0]} wins the game."
-puts ''
-sleep 2
-system 'cls'
-system 'clear'
-
-count = 0
-while game_on && count < 3
-  game_start(players[0], board)
-  game_start(players[1], board)
+#   check for winner or the draw()
 
   count += 1
 end
 
-board.call
-puts 'It\'s a Tie.'
-puts ''
-puts 'Game over.'
-sleep 2
-system 'cls'
-system 'clear'
 
 # rubocop:enable Metrics/MethodLength
-
-puts records
