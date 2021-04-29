@@ -103,3 +103,5 @@ system 'cls'
 system 'clear'
 
 # rubocop:enable Metrics/MethodLength
+
+puts records
