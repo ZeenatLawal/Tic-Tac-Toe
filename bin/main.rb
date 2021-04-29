@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 # rubocop:disable Metrics/MethodLength
-cells = ["","1","2","3","4","5","6","7","8","9"]
-# records = ["","","","","","","","",""]
+records = [1,2,3,4,5,6,7,8,9]
 
 def players_info
   puts 'Welcome to Ruby\'s Tic Tac Toe!'
@@ -41,15 +40,15 @@ players = players_info
 
 board = proc do
   puts '+---+---+---+'
-  puts "| #{cells[1]} | #{cells[2]} | #{cells[3]} |"
+  puts "| #{records[0]} | #{records[1]} | #{records[2]} |"
   puts '+---+---+---+'
-  puts "| #{cells[4]} | #{cells[5]} | #{cells[6]} |"
+  puts "| #{records[3]} | #{records[4]} | #{records[5]} |"
   puts '+---+---+---+'
-  puts "| #{cells[7]} | #{cells[8]} | #{cells[9]} |"
+  puts "| #{records[6]} | #{records[7]} | #{records[8]} |"
   puts '+---+---+---+'
 end
 
-def game_start(player, board)
+def game_start(player, board, arg, records)
   board.call
   puts ''
   puts "It's #{player}'s turn!"
@@ -58,12 +57,13 @@ def game_start(player, board)
     puts 'Please select an available cell from the board: '
     input = gets.chomp
     puts ''
-    raise StandardError, input if input.nil? || !(input.to_i >= 1 && input.to_i < 10) || records[input.to_i-1].length > 0 
+    raise StandardError, input if input.nil? || !(input.to_i >= 1 && input.to_i < 10) || !records[input.to_i-1].is_a?(Integer) 
   rescue StandardError
     puts 'Invalid move. Please enter a number from 1-9.'
     puts ''
     retry
   end
+  records[input.to_i-1] = arg
   system 'cls'
   system 'clear'
   sleep 1
@@ -73,9 +73,8 @@ game_on = true
 count = 0
 
 while game_on && count < 3
-  game_start(players[0], board)
-  game_start(players[1], board)
-
+  game_start(players[0],board,"X", records)
+  game_start(players[1],board, "O", records)
   count += 1
 end
 
