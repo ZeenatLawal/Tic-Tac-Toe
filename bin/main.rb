@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # rubocop:disable Metrics/MethodLength
 cells = ["","1","2","3","4","5","6","7","8","9"]
-records = ["","","","","","","","",""]
+# records = ["","","","","","","","",""]
 
 def players_info
   puts 'Welcome to Ruby\'s Tic Tac Toe!'
@@ -33,12 +33,13 @@ def players_info
   puts 'Let\'s start!'
   puts ''
   sleep 2
-  puts `clear`
+  system 'cls'
+  system 'clear'
   [player1, player2]
 end
 players = players_info
 
-def game_start(player, cells, arg, records)
+board = proc do
   puts '+---+---+---+'
   puts "| #{cells[1]} | #{cells[2]} | #{cells[3]} |"
   puts '+---+---+---+'
@@ -46,6 +47,10 @@ def game_start(player, cells, arg, records)
   puts '+---+---+---+'
   puts "| #{cells[7]} | #{cells[8]} | #{cells[9]} |"
   puts '+---+---+---+'
+end
+
+def game_start(player, board)
+  board.call
   puts ''
   puts "It's #{player}'s turn!"
   puts ''
@@ -59,21 +64,42 @@ def game_start(player, cells, arg, records)
     puts ''
     retry
   end
-  cells[input.to_i] = arg
-  records[input.to_i-1] = arg
-  puts `clear`
+  system 'cls'
+  system 'clear'
   sleep 1
 end
 
-2.times do
-  game_start(players[0], cells, "X", records)
-  game_start(players[1], cells, "O", records)
+game_on = true
+count = 0
+
+while game_on && count < 3
+  game_start(players[0], board)
+  game_start(players[1], board)
+
+  count += 1
 end
 
+board.call
 puts "#{players[0]} wins the game."
+puts ''
+sleep 2
+system 'cls'
+system 'clear'
+
+count = 0
+while game_on && count < 3
+  game_start(players[0], board)
+  game_start(players[1], board)
+
+  count += 1
+end
+
+board.call
+puts 'It\'s a Tie.'
 puts ''
 puts 'Game over.'
 sleep 2
-puts `clear`
+system 'cls'
+system 'clear'
 
 # rubocop:enable Metrics/MethodLength
