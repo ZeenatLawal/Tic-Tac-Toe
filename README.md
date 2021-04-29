@@ -20,7 +20,7 @@
 
 - [Copy this link](https://github.com/ZeenatLawal/Tic-Tac-Toe)
 - Open your terminal or command line
-- Run "git clone Paste [this link](https://github.com/ZeenatLawal/Tic-Tac-Toe)"
+- Run `git clone` and Paste the link
 - Open the folder with your code editor
 - Create a branch to work on
 - Now You can edit the code and do a pull request
