@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # rubocop:disable Metrics/MethodLength
-records = [1,2,3,4,5,6,7,8,9]
+require './lib/logic'
+require './lib/draw'
+records = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 def players_info
   puts 'Welcome to Ruby\'s Tic Tac Toe!'
@@ -57,29 +59,62 @@ def game_start(player, board, arg, records)
     puts 'Please select an available cell from the board: '
     input = gets.chomp
     puts ''
-    raise StandardError, input if input.nil? || !(input.to_i >= 1 && input.to_i < 10) || !records[input.to_i-1].is_a?(Integer) 
+    if input.nil? || !(input.to_i >= 1 && input.to_i < 10) || !records[input.to_i - 1].is_a?(Integer)
+      raise StandardError,
+            input
+    end
   rescue StandardError
     puts 'Invalid move. Please enter a number from 1-9.'
     puts ''
     retry
   end
-  records[input.to_i-1] = arg
+  records[input.to_i - 1] = arg
   system 'cls'
   system 'clear'
   sleep 1
 end
 
-game_on = true
-count = 0
+def play(players, board, records)
+  game_on = true
 
-while game_on && count < 3
-  game_start(players[0],board,"X", records)
-#   check for winner or the draw()
-  game_start(players[1],board, "O", records)
-#   check for winner or the draw()
+  while game_on
+    game_start(players[0], board, 'X', records)
+    logic = Logic.new(records)
+    draw = Draw.new(records)
 
-  count += 1
+    if logic.winner?('X')
+      puts "#{players[0]} wins the game!"
+      sleep 2
+      game_on = false
+      return
+    elsif draw.draw?
+      puts 'It\'s a Tie!'
+      puts ''
+      puts 'Game Over'
+      sleep 2
+      game_on = false
+      return
+    end
+    game_start(players[1], board, 'O', records)
+    logic = Logic.new(records)
+    draw = Draw.new(records)
+
+    if logic.winner?('O')
+      puts "#{players[1]} wins the game!"
+      sleep 2
+      game_on = false
+      return
+    elsif draw.draw?
+      puts 'It\'s a Tie!'
+      puts ''
+      puts 'Game Over'
+      sleep 2
+      game_on = false
+      return
+    end
+  end
 end
 
+play(players, board, records)
 
 # rubocop:enable Metrics/MethodLength
