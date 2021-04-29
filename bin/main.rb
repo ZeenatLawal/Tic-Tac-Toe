@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 # rubocop:disable Metrics/MethodLength
+require './lib/logic'
+require './lib/draw'
+records = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
 def players_info
   puts 'Welcome to Ruby\'s Tic Tac Toe!'
   begin
@@ -38,15 +42,15 @@ players = players_info
 
 board = proc do
   puts '+---+---+---+'
-  puts '| 1 | 2 | 3 |'
+  puts "| #{records[0]} | #{records[1]} | #{records[2]} |"
   puts '+---+---+---+'
-  puts '| 4 | 5 | 6 |'
+  puts "| #{records[3]} | #{records[4]} | #{records[5]} |"
   puts '+---+---+---+'
-  puts '| 7 | 8 | 9 |'
+  puts "| #{records[6]} | #{records[7]} | #{records[8]} |"
   puts '+---+---+---+'
 end
 
-def game_start(player, board)
+def game_start(player, board, arg, records)
   board.call
   puts ''
   puts "It's #{player}'s turn!"
@@ -55,48 +59,62 @@ def game_start(player, board)
     puts 'Please select an available cell from the board: '
     input = gets.chomp
     puts ''
-    raise StandardError, input if input.nil? || !(input.to_i >= 1 && input.to_i < 10)
+    if input.nil? || !(input.to_i >= 1 && input.to_i < 10) || !records[input.to_i - 1].is_a?(Integer)
+      raise StandardError,
+            input
+    end
   rescue StandardError
     puts 'Invalid move. Please enter a number from 1-9.'
     puts ''
     retry
   end
+  records[input.to_i - 1] = arg
   system 'cls'
   system 'clear'
   sleep 1
 end
 
-game_on = true
-count = 0
+def play(players, board, records)
+  game_on = true
 
-while game_on && count < 3
-  game_start(players[0], board)
-  game_start(players[1], board)
+  while game_on
+    game_start(players[0], board, 'X', records)
+    logic = Logic.new(records)
+    draw = Draw.new(records)
 
-  count += 1
+    if logic.winner?('X')
+      puts "#{players[0]} wins the game!"
+      sleep 2
+      game_on = false
+      return
+    elsif draw.draw?
+      puts 'It\'s a Tie!'
+      puts ''
+      puts 'Game Over'
+      sleep 2
+      game_on = false
+      return
+    end
+    game_start(players[1], board, 'O', records)
+    logic = Logic.new(records)
+    draw = Draw.new(records)
+
+    if logic.winner?('O')
+      puts "#{players[1]} wins the game!"
+      sleep 2
+      game_on = false
+      return
+    elsif draw.draw?
+      puts 'It\'s a Tie!'
+      puts ''
+      puts 'Game Over'
+      sleep 2
+      game_on = false
+      return
+    end
+  end
 end
 
-board.call
-puts "#{players[0]} wins the game."
-puts ''
-sleep 2
-system 'cls'
-system 'clear'
-
-count = 0
-while game_on && count < 3
-  game_start(players[0], board)
-  game_start(players[1], board)
-
-  count += 1
-end
-
-board.call
-puts 'It\'s a Tie.'
-puts ''
-puts 'Game over.'
-sleep 2
-system 'cls'
-system 'clear'
+play(players, board, records)
 
 # rubocop:enable Metrics/MethodLength
