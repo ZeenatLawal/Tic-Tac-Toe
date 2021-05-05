@@ -8,5 +8,9 @@ describe Draw do
     it 'returns true if board contains strings' do
       expect(draw.draw?).to be true
     end
+
+    it 'returns false if board contains integers' do
+      expect(not_draw.draw?).to be false
+    end
   end
 end
