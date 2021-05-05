@@ -10,17 +10,17 @@ describe Logic do
       it 'returns true if X is the winner' do
         expect(winx.winner?('X')).to be true
       end
-  
+
       it 'returns false if X is not the winner' do
         expect(not_win.winner?('X')).not_to be true
       end
     end
-    
+
     context 'O wins or not' do
       it 'returns true if O is the winner' do
         expect(wino.winner?('O')).to be true
       end
-  
+
       it 'returns false if O is not the winner' do
         expect(not_win.winner?('O')).not_to be true
       end
